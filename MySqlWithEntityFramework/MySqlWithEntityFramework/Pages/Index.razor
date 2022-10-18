@@ -1,0 +1,40 @@
+﻿@page "/"
+@using MySqlWithEntityFramework.Service
+@using MySqlWithEntityFramework.EF.Models
+@inject LaptopService LaptopService
+
+<PageTitle>Index</PageTitle>
+
+@if (laptops == null) {
+    <p><em>Loading...</em></p>
+} else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Company Name</th>
+                <th>Model Number</th>
+                <th>Serial Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in laptops) {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.ModelNumber</td>
+                    <td>@item.SerialNumber</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private Laptop[]? laptops;
+
+    protected override async Task OnInitializedAsync() {
+        laptops = LaptopService.GetLaptops();
+    }
+}
